@@ -1,0 +1,4 @@
+<FilesMatch "\.(json|db)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
