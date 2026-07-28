@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="ru"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Пееренос документации ИКС в Gramax</title><meta name="description" content="Часть комплексного проекта по размещению документации межсетевого экрана ИКС в системе document-as-code с ИИ поиском"><link rel="canonical" href="https://ai-real.su/blog/ai-docs-tranfer-to-gramax/"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:title" content="Пееренос документации ИКС в Gramax"><meta property="og:description" content="Часть комплексного проекта по размещению документации межсетевого экрана ИКС в системе document-as-code с ИИ поиском"><meta property="og:url" content="https://ai-real.su/blog/ai-docs-tranfer-to-gramax/"><meta property="og:site_name" content="AI Real"><link rel="stylesheet" href="/_astro/_slug_.ML0X88kk.css"></head> <body> <header class="bg-white border-b border-gray-200 sticky top-0 z-50"> <nav class="container py-4 flex items-center justify-between"> <a href="/" class="text-2xl font-bold text-dark flex items-center gap-2"> <span class="text-primary">AI</span>Real
+</a> <ul class="hidden md:flex items-center gap-8"> <li> <a href="/" class="text-dark hover:text-primary font-medium transition-colors"> Главная </a> </li><li> <a href="/products/" class="text-dark hover:text-primary font-medium transition-colors"> Продукты </a> </li><li> <a href="/services/" class="text-dark hover:text-primary font-medium transition-colors"> Услуги </a> </li><li> <a href="/blog/" class="text-dark hover:text-primary font-medium transition-colors"> Блог </a> </li><li> <a href="/contacts/" class="text-dark hover:text-primary font-medium transition-colors"> Контакты </a> </li> </ul> <div class="hidden md:block"> <a href="/contacts/" class="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+Связаться
+</a> </div> </nav> </header> <main>  <article class="container py-12 max-w-4xl mx-auto"> <header class="mb-12"> <div class="flex items-center gap-4 text-sm text-gray mb-4 flex-wrap"> <span class="text-primary font-semibold">Услуги</span> <span>•</span> <time datetime="2026-07-28T00:00:00.000Z"> 28 июля 2026 г. </time> <span>•</span> <span>AI Real Team</span> </div> <h1 class="text-4xl md:text-5xl font-bold mb-6">Пееренос документации ИКС в Gramax</h1> <div class="flex flex-wrap gap-2"> <span class="px-3 py-1 bg-light-gray text-gray text-sm rounded-full">
+#ИИ </span><span class="px-3 py-1 bg-light-gray text-gray text-sm rounded-full">
+#продажи </span><span class="px-3 py-1 bg-light-gray text-gray text-sm rounded-full">
+#аналитика </span><span class="px-3 py-1 bg-light-gray text-gray text-sm rounded-full">
+#RAG </span> </div> </header> <div class="prose prose-lg max-w-none prose-headings:font-bold prose-a:text-primary prose-img:rounded-xl">  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>трудозатраты</th><th>экономический эффект</th></tr></thead><tbody><tr><td>10 часов работы над оптимизацией скриптов и отладкой промптов и приемкой результата</td><td>вместо примерно полутора месяцев работы специалистов технической поддержки по ручному переносу статей.</td></tr><tr><td>примерно 25 часов работы агента с локальной моделью</td><td>результат нуждается в ручной проверке и небольших корректировках, примерно на 8 часов рабочего времени</td></tr></tbody></table>
+<p>Документация межсетевого экрана ИКС раньше хранилась в Wiki, но руководство компании поставило задачу по переносу ее в инструмент Gramax. Основная цель - работа с версиями документов, хранение их в git, и самое главное ИИ поиск по документам.</p>
+<p>Что было сделано</p>
+<ol>
+<li>
+<p>развернут локальный Gramax docportal.</p>
+</li>
+<li>
+<p>с помощью алгоритмической части и использования агента OpenClaw выполнен перенос документов с сохранением структуры, внутренних ссылок, иллюстраций.</p>
+</li>
+<li>
+<p>выполнена верификация полученной структуры</p>
+</li>
+</ol>
+<p>Как переносилась документация</p>
+<p>Сначала с помощью большого Qwen 3.7 Plus был разработан скрипт, который алгоритмически изучает всю ветку документации на существующем сервере и строит ее карту для агента.В нашем конкретном случае, большому квену была показана структура документации, чтобы парсер ее мог быстрее и без ошибок построить карту. Парсер на Python + BeautifulSoup. Работает в два этапа:</p>
+<ol>
+<li>
+<p>Рекурсивный обход <code>&#x3C;ul>/&#x3C;li>/&#x3C;details></code> для построения дерева категорий</p>
+</li>
+<li>
+<p>Сканирование каждой категории для поиска всех статей через универсальный поиск ссылок <code>?article=N</code></p>
+</li>
+</ol>
+<p>Фрагмент карты выглядит так:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>    {</span></span>
+<span class="line"><span>      "id": "article_277",</span></span>
+<span class="line"><span>      "type": "article",</span></span>
+<span class="line"><span>      "title": "Выход из веб-интерфейса",</span></span>
+<span class="line"><span>      "url": "https://doc.a-real.ru/index.php?article=277",</span></span>
+<span class="line"><span>      "parent_id": "category_16",</span></span>
+<span class="line"><span>      "level": 2,</span></span>
+<span class="line"><span>      "order": 7,</span></span>
+<span class="line"><span>      "children_ids": []</span></span>
+<span class="line"><span>    },</span></span>
+<span class="line"><span>    {</span></span>
+<span class="line"><span>      "id": "category_29",</span></span>
+<span class="line"><span>      "type": "category",</span></span>
+<span class="line"><span>      "title": "Пользователи",</span></span>
+<span class="line"><span>      "url": "https://doc.a-real.ru/index.php?category=29",</span></span>
+<span class="line"><span>      "parent_id": "category_18",</span></span>
+<span class="line"><span>      "level": 2,</span></span>
+<span class="line"><span>      "order": 1,</span></span>
+<span class="line"><span>      "children_ids": [</span></span>
+<span class="line"><span>        "article_124",</span></span>
+<span class="line"><span>        "article_130",</span></span>
+<span class="line"><span>        "article_131",</span></span>
+<span class="line"><span>        "article_132",</span></span>
+<span class="line"><span>        "article_137",</span></span>
+<span class="line"><span>        "article_142"</span></span>
+<span class="line"><span>      ]</span></span>
+<span class="line"><span>    },</span></span></code></pre>
+<p>То есть были определены все компоненты документации, их родительские и подчиненные элементы, представляющие собой полную структуру. Структура я проверил отдельным скриптом и выборочно руками. После этого можно было работать дальше. (Хотя один раз пришлось вернуться обратно и перестроить карту, чтобы поле order было локальным - внутри родительской категории, а не глобальным. Это обнаружилось на следующем этапе.</p>
+<p>Дальше был разработан скрипт orchestrator.py, который перебирает все компоненты карты документации, категории создает сам, делая под каждую каталог нужного уровня вложенности и создавая файл _index.md, а в случае статьи вызывает агента OpenClaw, который уже загружает html код каждой статьи и превращает ее в md файл, расположенный в нужном каталоге.</p>
+<p>Пришлось вручную поэкспериментировать со структурой и содержанием репозитория Gramax, поскольку документация по нему пока не полная. Это для того, чтобы в статьях и _index.md был размещен корректный frontmatter.</p>
+<p>Принципы обработки статей были описаны для агента в файле SKILL.md.</p>
+<p>Важное замечание - перед каждым запуском агента мы делали сброс его сессии, и, соответственно, контекста. Каждый запуск агента предусматривал три попытки и иногда агент использовал второй и третий шансы, но чаше успешно завершался с первой попытки.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span> I'll start by reading the SKILL.md to understand the exact process, then fetch the article </span></span>
+<span class="line"><span>HTML.Good, HTML downloaded (65250 bytes). Now let me parse the content.The content is in </span></span>
+<span class="line"><span>`&#x3C;div class="ticket ticket--article">`. Let me extract the body content properly.Good, I </span></span>
+<span class="line"><span>have the full body. Now let me process everything: extract content, download images, create </span></span>
+<span class="line"><span>the markdown file.All images are valid PNGs. Now let me compute the relative path for images. </span></span>
+<span class="line"><span>SECTION_PATH = `telefoniya` has 1 `/`, so N = 1+1 = 2 levels up: `../../images/article_101/`. </span></span>
+<span class="line"><span>Now create the markdown file.```json</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span> "status": "success",</span></span>
+<span class="line"><span> "id": "article_101",</span></span>
+<span class="line"><span> "type": "article",</span></span>
+<span class="line"><span> "file_path": "telefoniya/xphone.md",</span></span>
+<span class="line"><span> "images_downloaded": 21,</span></span>
+<span class="line"><span> "content_length": 11404,</span></span>
+<span class="line"><span> "warnings": []</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>Дальше мы занялись постобработкой</p>
+<p>После первого прогона оркестратора возникли проблемы, которые потребовали отдельного этапа.</p>
+<p>Для диагностики создали скрипт: audit.py. Он находит 7 типов проблем (которые перед этим пришлось скрупулезно описать большому Квену):</p>
+<ol>
+<li>
+<p>Недостающие файлы — по id в frontmatter (а не по пути, потому что файлы уже были переименованы в нормальный вид, не article_204.md, а nastroyka-autentifikacii-polzovatelej.md)</p>
+</li>
+<li>
+<p>Дублирующиеся заголовки — если Title совпадает с title из frontmatter</p>
+</li>
+<li>
+<p>Некорректные ссылки — внешние URL на <a href="http://doc.a-real.ru">doc.a-real.ru</a> и битые внутренние</p>
+</li>
+<li>
+<p>Дублирующийся текст — повторение абзацев в начале статьи</p>
+</li>
+<li>
+<p>Блоки “Источник” со ссылкой на внешний ресурс, которые были явно лишние</p>
+</li>
+<li>
+<p>Битые пути к изображениям</p>
+</li>
+<li>
+<p>Отсутствие саммари в _<em>index.md</em></p>
+</li>
+</ol>
+<h2 id="работа-над-ошибками">Работа над ошибками</h2>
+<p>Ее мы проводили в несколько этапов, что то делали алгоритмы, а для других, неалгоритмизуемых задач вызывался агент со соответствующим промптом:</p>
+<h3 id="алгоритмические-исправления"><em>Алгоритмические исправления:</em></h3>
+<ul>
+<li>
+<p><em>Удаление дублей заголовков (регулярки)</em></p>
+</li>
+<li>
+<p><em>Удаление блоков “Источник”</em></p>
+</li>
+<li>
+<p><em>Замена внешних ссылок на относительные пути к .md-файлам</em></p>
+</li>
+<li>
+<p>Исправление путей к картинкам</p>
+</li>
+<li>
+<p>Добавление списка дочерних статей в _<em>index.md</em></p>
+</li>
+<li>
+<p><em>Удаление дублирующегося текста</em></p>
+</li>
+</ul>
+<p>А вот для создания недостающих статей и генерации саммари во все  _index.md снова использовался агент.</p>
+<p><strong>Статистика результата:</strong></p>
+<ul>
+<li>
+<p>~270 объектов в структуре (категории + статьи)</p>
+</li>
+<li>
+<p>~220 Markdown-файлов</p>
+</li>
+<li>
+<p>~150 каталогов</p>
+</li>
+<li>
+<p>~ 450 изображений</p>
+</li>
+<li>
+<p>Все внутренние ссылки — относительные, ведут на локальные <code>.md</code>-файлы</p>
+</li>
+<li>
+<p>Все <code>_index.md</code> содержат саммари и список дочерних элементов</p>
+</li>
+<li>
+<p>Все статьи имеют корректный frontmatter с <code>id</code>, <code>title</code>, <code>section</code>, <code>parent_id</code>, <code>level</code>, <code>order</code></p>
+</li>
+</ul>
+<p>Разработанная система полностью автоматизирована и может быть применена к другим источникам документации — достаточно адаптировать парсер HTML и шаблоны промптов.</p>  </div> <footer class="mt-12 pt-8 border-t border-gray-200"> <a href="/blog/" class="text-primary hover:text-primary-dark font-semibold">
+← Вернуться к блогу
+</a> </footer> </article>  </main> <footer class="bg-dark text-white py-16 mt-20"> <div class="container"> <div class="grid md:grid-cols-4 gap-8 mb-12"> <div> <h3 class="text-xl font-bold mb-4"><span class="text-primary">AI</span>Real</h3> <p class="text-gray-300 mb-4 text-sm">
+ИИ-решения для бизнеса от компании с многолетним опытом в информационной безопасности.
+</p> </div> <div> <h4 class="font-bold mb-4 text-white">Решения</h4> <ul class="space-y-2 text-sm"> <li><a href="/products/ai-rop/" class="text-gray-300 hover:text-white">ИИ РОП</a></li> <li><a href="/products/chat-analytics/" class="text-gray-300 hover:text-white">Аналитика чатов</a></li> <li><a href="/services/custom-dev/" class="text-gray-300 hover:text-white">Агентные системы</a></li> </ul> </div> <div> <h4 class="font-bold mb-4 text-white">Компания</h4> <ul class="space-y-2 text-sm"> <li><a href="/about/" class="text-gray-300 hover:text-white">О нас</a></li> <li><a href="/blog/" class="text-gray-300 hover:text-white">Блог</a></li> <li><a href="/contacts/" class="text-gray-300 hover:text-white">Контакты</a></li> </ul> </div> <div> <h4 class="font-bold mb-4 text-white">Контакты</h4> <ul class="space-y-2 text-sm text-gray-300"> <li>Email: info@ai-real.su</li> <li>Тел: +7 (XXX) XXX-XX-XX</li> </ul> </div> </div> <div class="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm"> <p>&copy; 2026 AI Real. Все права защищены.</p> <p class="mt-2 text-xs text-gray-500">
+Направление группы компаний А-Реал Консалтинг — разработчика межсетевых экранов ИКС
+</p> </div> </div> </footer> </body></html>
