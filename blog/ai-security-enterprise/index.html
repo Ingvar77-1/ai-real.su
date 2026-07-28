@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="ru"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Безопасность ИИ: почему корпоративные данные нельзя отправлять в ChatGPT</title><meta name="description" content="Разбираем риски использования публичных LLM и как внедрять ИИ без утечек данных."><link rel="canonical" href="https://ai-real.su/blog/ai-security-enterprise/"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:title" content="Безопасность ИИ: почему корпоративные данные нельзя отправлять в ChatGPT"><meta property="og:description" content="Разбираем риски использования публичных LLM и как внедрять ИИ без утечек данных."><meta property="og:url" content="https://ai-real.su/blog/ai-security-enterprise/"><meta property="og:site_name" content="AI Real"><link rel="stylesheet" href="/_astro/_slug_.MNjFMUKM.css"></head> <body> <header class="bg-white border-b border-gray-200 sticky top-0 z-50"> <nav class="container py-4 flex items-center justify-between"> <a href="/" class="text-2xl font-bold text-dark flex items-center gap-2"> <span class="text-primary">AI</span>Real
+</a> <ul class="hidden md:flex items-center gap-8"> <li> <a href="/" class="text-dark hover:text-primary font-medium transition-colors"> Главная </a> </li><li> <a href="/products/" class="text-dark hover:text-primary font-medium transition-colors"> Продукты </a> </li><li> <a href="/services/" class="text-dark hover:text-primary font-medium transition-colors"> Услуги </a> </li><li> <a href="/blog/" class="text-dark hover:text-primary font-medium transition-colors"> Блог </a> </li><li> <a href="/contacts/" class="text-dark hover:text-primary font-medium transition-colors"> Контакты </a> </li> </ul> <div class="hidden md:block"> <a href="/contacts/" class="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+Связаться
+</a> </div> </nav> </header> <main>  <article class="container py-12 max-w-4xl mx-auto"> <header class="mb-12"> <div class="flex items-center gap-4 text-sm text-gray mb-4 flex-wrap"> <span class="text-primary font-semibold">Безопасность</span> <span>•</span> <time datetime="2026-07-30T00:00:00.000Z"> 30 июля 2026 г. </time> <span>•</span> <span>AI Real Team</span> </div> <h1 class="text-4xl md:text-5xl font-bold mb-6">Безопасность ИИ: почему корпоративные данные нельзя отправлять в ChatGPT</h1> <div class="flex flex-wrap gap-2"> <span class="px-3 py-1 bg-light-gray text-gray text-sm rounded-full">
+#безопасность </span><span class="px-3 py-1 bg-light-gray text-gray text-sm rounded-full">
+#ИБ </span><span class="px-3 py-1 bg-light-gray text-gray text-sm rounded-full">
+#LLM </span><span class="px-3 py-1 bg-light-gray text-gray text-sm rounded-full">
+#on-premise </span> </div> </header> <div class="prose prose-lg max-w-none prose-headings:font-bold prose-a:text-primary prose-img:rounded-xl">  <h2 id="реальный-кейс-утечка-через-chatgpt">Реальный кейс: утечка через ChatGPT</h2>
+<p><strong>Ситуация:</strong> разработчик крупной компании скопировал в ChatGPT фрагмент кода для отладки.</p>
+<p><strong>Проблема:</strong></p>
+<ul>
+<li>Код содержал API-ключи и логику бизнес-процессов</li>
+<li>Данные попали в обучающую выборку OpenAI</li>
+<li>Через 3 месяца конкуренты получили доступ к этой информации через тот же ChatGPT</li>
+</ul>
+<p><strong>Ущерб:</strong> миллионы долларов, смена всей инфраструктуры.</p>
+<h2 id="3-главных-риска-публичных-llm">3 главных риска публичных LLM</h2>
+<h3 id="1-обучение-на-ваших-данных">1. Обучение на ваших данных</h3>
+<p><strong>Как работает:</strong></p>
+<ul>
+<li>Вы отправляете запрос → данные сохраняются на серверах OpenAI/Anthropic</li>
+<li>Используются для дообучения моделей</li>
+<li>Могут быть выданы другим пользователям</li>
+</ul>
+<p><strong>Решение:</strong> отключить обучение (но это не гарантирует безопасность)</p>
+<h3 id="2-перехват-данных">2. Перехват данных</h3>
+<p><strong>Риски:</strong></p>
+<ul>
+<li>Трафик идет через публичный интернет</li>
+<li>Возможность MITM-атак</li>
+<li>Хранение данных в нескольких юрисдикциях</li>
+</ul>
+<h3 id="3-нарушение-152-фз">3. Нарушение 152-ФЗ</h3>
+<p>Для российских компаний:</p>
+<ul>
+<li>Персональные данные не должны покидать РФ</li>
+<li>Публичные LLM хранят данные за границей</li>
+<li>Штрафы до 6 млн рублей</li>
+</ul>
+<h2 id="как-внедрять-ии-безопасно">Как внедрять ИИ безопасно</h2>
+<h3 id="вариант-1-on-premise-развертывание">Вариант 1: On-premise развертывание</h3>
+<p><strong>Что это:</strong></p>
+<ul>
+<li>Модель работает на ваших серверах</li>
+<li>Данные не покидают периметр</li>
+<li>Полный контроль</li>
+</ul>
+<p><strong>Плюсы:</strong></p>
+<ul>
+<li>Максимальная безопасность</li>
+<li>Соответствие 152-ФЗ</li>
+<li>Независимость от интернета</li>
+</ul>
+<p><strong>Минусы:</strong></p>
+<ul>
+<li>Требует мощного железа (GPU)</li>
+<li>Сложнее обновлять модели</li>
+</ul>
+<p><strong>Когда выбирать:</strong></p>
+<ul>
+<li>Работа с персональными данными</li>
+<li>Строгие требования compliance</li>
+<li>Высокие объемы обработки</li>
+</ul>
+<h3 id="вариант-2-приватные-api-с-шифрованием">Вариант 2: Приватные API с шифрованием</h3>
+<p><strong>Что это:</strong></p>
+<ul>
+<li>Использование корпоративных версий (Azure OpenAI, YandexGPT Enterprise)</li>
+<li>Данные не используются для обучения</li>
+<li>Шифрование end-to-end</li>
+</ul>
+<p><strong>Плюсы:</strong></p>
+<ul>
+<li>Быстрый старт</li>
+<li>Не нужно свое железо</li>
+<li>SLA и поддержка</li>
+</ul>
+<p><strong>Минусы:</strong></p>
+<ul>
+<li>Данные уходят в облако</li>
+<li>Зависимость от провайдера</li>
+</ul>
+<h3 id="вариант-3-гибридная-архитектура">Вариант 3: Гибридная архитектура</h3>
+<p><strong>Что это:</strong></p>
+<ul>
+<li>Чувствительные данные обрабатываются локально</li>
+<li>Нечувствительные — через приватный API</li>
+<li>Шлюз с маской данных</li>
+</ul>
+<p><strong>Пример:</strong></p>
+<ul>
+<li>Персональные данные клиентов → локальная модель</li>
+<li>Общие вопросы → Azure OpenAI с шифрованием</li>
+</ul>
+<h2 id="наш-подход-безопасность-по-умолчанию">Наш подход: безопасность по умолчанию</h2>
+<p>Мы — разработчики межсетевых экранов ИКС. Для нас ИБ не опция, а требование.</p>
+<p><strong>В каждом проекте:</strong></p>
+<ol>
+<li><strong>Аудит данных</strong> — что можно, что нельзя отправлять наружу</li>
+<li><strong>Архитектура</strong> — выбор между on-premise и приватным API</li>
+<li><strong>Шифрование</strong> — TLS 1.3, шифрование на rest</li>
+<li><strong>Аудит</strong> — логирование всех запросов к ИИ</li>
+<li><strong>DLP</strong> — предотвращение утечек</li>
+</ol>
+<h2 id="чек-лист-безопасного-внедрения-ии">Чек-лист безопасного внедрения ИИ</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Проведен аудит данных (что обрабатываем)</li>
+<li class="task-list-item"><input type="checkbox" disabled> Определены требования compliance (152-ФЗ, GDPR)</li>
+<li class="task-list-item"><input type="checkbox" disabled> Выбрана архитектура (on-premise / cloud / hybrid)</li>
+<li class="task-list-item"><input type="checkbox" disabled> Настроено шифрование трафика</li>
+<li class="task-list-item"><input type="checkbox" disabled> Реализовано логирование и аудит</li>
+<li class="task-list-item"><input type="checkbox" disabled> Настроены права доступа</li>
+<li class="task-list-item"><input type="checkbox" disabled> Проведено обучение сотрудников</li>
+</ul>
+<p><strong>Нужна помощь с безопасным внедрением ИИ?</strong><br>
+Проведем аудит вашей инфраструктуры и предложим архитектуру, которая соответствует требованиям ИБ.</p>
+<p><a href="/contacts/">Связаться с экспертом →</a></p>  </div> <footer class="mt-12 pt-8 border-t border-gray-200"> <a href="/blog/" class="text-primary hover:text-primary-dark font-semibold">
+← Вернуться к блогу
+</a> </footer> </article>  </main> <footer class="bg-dark text-white py-16 mt-20"> <div class="container"> <div class="grid md:grid-cols-4 gap-8 mb-12"> <div> <h3 class="text-xl font-bold mb-4"><span class="text-primary">AI</span>Real</h3> <p class="text-gray-300 mb-4 text-sm">
+ИИ-решения для бизнеса от компании с многолетним опытом в информационной безопасности.
+</p> </div> <div> <h4 class="font-bold mb-4 text-white">Решения</h4> <ul class="space-y-2 text-sm"> <li><a href="/products/ai-rop/" class="text-gray-300 hover:text-white">ИИ РОП</a></li> <li><a href="/products/chat-analytics/" class="text-gray-300 hover:text-white">Аналитика чатов</a></li> <li><a href="/services/custom-dev/" class="text-gray-300 hover:text-white">Агентные системы</a></li> </ul> </div> <div> <h4 class="font-bold mb-4 text-white">Компания</h4> <ul class="space-y-2 text-sm"> <li><a href="/about/" class="text-gray-300 hover:text-white">О нас</a></li> <li><a href="/blog/" class="text-gray-300 hover:text-white">Блог</a></li> <li><a href="/contacts/" class="text-gray-300 hover:text-white">Контакты</a></li> </ul> </div> <div> <h4 class="font-bold mb-4 text-white">Контакты</h4> <ul class="space-y-2 text-sm text-gray-300"> <li>Email: info@ai-real.su</li> <li>Тел: +7 (XXX) XXX-XX-XX</li> </ul> </div> </div> <div class="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm"> <p>&copy; 2026 AI Real. Все права защищены.</p> <p class="mt-2 text-xs text-gray-500">
+Направление группы компаний А-Реал Консалтинг — разработчика межсетевых экранов ИКС
+</p> </div> </div> </footer> </body></html>
