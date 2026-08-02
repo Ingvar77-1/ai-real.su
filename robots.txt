@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Запрет индексации черновиков блога (если они есть)
+Disallow: /blog/draft/
+
+Sitemap: https://ai-real.su/sitemap-index.xml
